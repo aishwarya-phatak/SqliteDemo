@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SqliteDemo"
         tools:targetApi="31">
+        <activity android:name=".MainActivity"
+            android:exported="true">
+        </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".NewActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -26,18 +26,69 @@ class MainActivity : AppCompatActivity() {
             null
         )
         try{
-            db.execSQL("create table products(_id integer primary key, title text not null,price integer)")
+            if("db_products" == null) {
+                db.execSQL("create table products(_id integer primary key, title text not null,price integer)")
+            }
         } catch(e : Exception){
             Log.e("tag","exception is $e")
         }
-        insertRecords()
+        //Log.e("tag","---------Insert Operation on Database--------------")
+        //insertRecords()
+        //Log.e("tag","---------Delete Operation on Database------------")
+        //deleteRecords()
+        Log.e("tag","---------Update Operation on Database----------------")
+        updateRecords()
+        Log.e("tag","---------Retrieve Operation on Database--------------")
+        getProducts()
+
     }
+
+    private fun getProducts(){
+        var c = db.rawQuery("select _id,title,price from products where price > ? and price < ?",
+        arrayOf("8000", "10000")
+        )
+
+        while(c.moveToNext()){
+            var id = c.getInt(0)
+            var title = c.getString(1)
+            var price = c.getInt(2)
+
+            Log.e("tag","$id $title $price")
+        }
+
+        c.close()
+    }
+
+    private fun updateRecords(){
+        var values = ContentValues()
+        values.put("price",9999)
+
+        var count = db.update(
+            "products",
+            values,
+            "_id = ?",
+            arrayOf("15204696")
+        )
+
+        values = ContentValues()
+        values.put("price",8888)
+        values.put("title","One+")
+
+        db.update(
+            "products",
+            values,
+            "_id = ?",
+            arrayOf("107209075")
+        )
+    }
+
     private fun deleteRecords(){
         var count = db.delete("products",
         "_id in (?,?)",
-            arrayOf("1000","101")
+            arrayOf("83370883","101")
         )
     }
+
 
     private fun insertRecords(){
         var values = ContentValues()
